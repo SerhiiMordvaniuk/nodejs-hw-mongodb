@@ -2,10 +2,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import pino from 'pino-http';
+import cors from 'cors';
 
 import express from 'express';
-
-import cors from 'cors';
 
 import Contact from './models/contact.js';
 
