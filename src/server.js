@@ -6,9 +6,11 @@ import cors from 'cors';
 
 import express from 'express';
 
-import Contact from './models/contact.js';
+import { getAllContacts } from './services/getAllContacts.js';
+import { getContactById } from './services/getContactById.js';
+import { getEnvVar } from './utils/getEnvVar.js';
 
-const PORT = Number(process.env.PORT);
+const PORT = getEnvVar('PORT', 3000);
 
 export async function setupServer() {
   const app = express();
@@ -28,7 +30,7 @@ export async function setupServer() {
   });
 
   app.get('/contacts', async (req, res) => {
-    const contacts = await Contact.find();
+    const contacts = await getAllContacts();
     res.status(200).json({
       status: 200,
       message: 'Successfully found contacts!',
@@ -38,8 +40,7 @@ export async function setupServer() {
 
   app.get('/contacts/:id', async (req, res) => {
     const id = req.params.id;
-    const contact = await Contact.findById(id);
-
+    const contact = await getContactById(id);
     if (contact === null) {
       res.status(404).json({
         message: 'Contact not found',
