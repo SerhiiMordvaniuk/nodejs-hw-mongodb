@@ -8,7 +8,7 @@ export async function initMongoConnection() {
     const url = getEnvVar('MONGODB_URL');
     const db = getEnvVar('MONGODB_DB');
     await mongoose.connect(
-      `mongodb+srv://${user}:${password}@${url}/${db}?retryWrites=true&w=majonity`,
+      `mongodb+srv://${user}:${password}@${url}/${db}?retryWrites=true&w=majority`,
     );
   } catch (error) {
     console.error(error);
