@@ -1,13 +1,7 @@
-import createHttpError from 'http-errors';
-
 export function calculatePaginationData(page, perPage, count) {
   const totalPages = Math.ceil(count / perPage);
   const hasNextPage = Boolean(totalPages - page);
   const hasPreviousPage = page !== 1;
-
-  if (page > totalPages) {
-    throw createHttpError(404, `Page in query less than totalPages`);
-  }
 
   return {
     page,
@@ -17,4 +11,14 @@ export function calculatePaginationData(page, perPage, count) {
     hasNextPage,
     hasPreviousPage,
   };
+}
+
+export function isPageLessTotalPage(page, perPage, count) {
+  const totalPages = Math.ceil(count / perPage);
+  let queryPage;
+  if (page > totalPages) {
+    queryPage = totalPages ? totalPages : 1;
+    return queryPage;
+  }
+  return page;
 }
