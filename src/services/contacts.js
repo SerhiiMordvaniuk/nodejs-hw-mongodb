@@ -14,8 +14,8 @@ export const getAllContacts = async ({
 }) => {
   const contactQuery = Contact.find();
 
-  if (filter.contactType !== undefined) {
-    contactQuery.where('contactType').equals(filter.contactType);
+  if (filter.type !== undefined) {
+    contactQuery.where('contactType').equals(filter.type);
   }
   if (filter.isFavourite !== undefined) {
     contactQuery.where('isFavourite').equals(filter.isFavourite);
