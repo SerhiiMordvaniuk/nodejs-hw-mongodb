@@ -1,10 +1,9 @@
 import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
-import randomBytes from 'randombytes';
 
 import { User } from '../db/models/user.js';
 import { Session } from '../db/models/session.js';
-import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/index.js';
+import { createSession } from '../utils/createSession.js';
 
 export async function registerUser(payload) {
   const user = await User.findOne({ email: payload.email });
@@ -23,6 +22,7 @@ export async function registerUser(payload) {
 
 export async function loginUser(payload) {
   const user = await User.findOne({ email: payload.email });
+
   if (!user) throw createHttpError(404, 'User not found or wrong email');
 
   const isPasswordCorrect = await bcrypt.compare(
@@ -32,18 +32,37 @@ export async function loginUser(payload) {
 
   if (!isPasswordCorrect) throw createHttpError(401, 'Password is wrong');
 
-  await Session.deleteOne({ iserId: user._id });
+  await Session.deleteOne({ userId: user._id });
 
-  const accessToken = randomBytes(30).toString('base64');
-  const refreshToken = randomBytes(30).toString('base64');
+  const newSession = createSession();
 
-  const newSession = await Session.create({
-    userId: user._id,
-    accessToken,
+  return await Session.create({ ...newSession, userId: user._id });
+}
+
+export async function logoutUser(sessionId) {
+  await Session.deleteOne({ _id: sessionId });
+}
+
+export async function refreshUserSession({ sessionId, refreshToken }) {
+  const session = await Session.findOne({
+    _id: sessionId,
     refreshToken,
-    accessTokenValidUntil: Date.now() + FIFTEEN_MINUTES,
-    refreshTokenValidUntil: Date.now() + ONE_DAY,
   });
 
-  return newSession;
+  if (!session) throw createHttpError(401, 'Session not found');
+
+  const isSessionTokenExpired =
+    new Date() > new Date(session.refreshTokenValidUntil);
+
+  if (isSessionTokenExpired)
+    throw createHttpError(401, 'Session token expired');
+
+  const newSession = createSession();
+
+  await Session.deleteOne({ _id: sessionId, refreshToken });
+
+  return await Session.create({
+    userId: session.userId,
+    ...newSession,
+  });
 }
