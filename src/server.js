@@ -3,14 +3,16 @@ dotenv.config();
 
 import pino from 'pino-http';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 import express from 'express';
 
 import { getEnvVar } from './utils/getEnvVar.js';
 
-import routes from './routers/contacts.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
+
+import routes from './routers/index.js';
 
 const PORT = getEnvVar('PORT', 3000);
 
@@ -24,6 +26,7 @@ export async function setupServer() {
     }),
   );
 
+  app.use(cookieParser());
   app.use(cors());
 
   app.use(pino({ transport: { target: 'pino-pretty' } }));
