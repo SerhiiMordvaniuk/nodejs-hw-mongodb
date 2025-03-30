@@ -22,7 +22,7 @@ const router = Router();
 
 router.get('/', ctrlWrapper(getAllContactsController));
 
-router.get(':id', isValidId, ctrlWrapper(getContactByIdController));
+router.get('/:id', isValidId, ctrlWrapper(getContactByIdController));
 
 router.post(
   '/',

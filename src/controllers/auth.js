@@ -30,17 +30,6 @@ export async function loginUserController(req, res) {
   });
 }
 
-export async function logoutUserController(req, res) {
-  if (req.cookies.sessionId) {
-    await logoutUser(req.cookies.sessionId);
-  }
-
-  res.clearCookie('sessionId');
-  res.clearCookie('refreshToken');
-
-  res.status(204).send();
-}
-
 export async function refreshUserSessionController(req, res) {
   const session = await refreshUserSession({
     sessionId: req.cookies.sessionId,
@@ -56,4 +45,15 @@ export async function refreshUserSessionController(req, res) {
       accessToken: session.accessToken,
     },
   });
+}
+
+export async function logoutUserController(req, res) {
+  if (req.cookies.sessionId) {
+    await logoutUser(req.cookies.sessionId);
+  }
+
+  res.clearCookie('sessionId');
+  res.clearCookie('refreshToken');
+
+  res.status(204).send();
 }
