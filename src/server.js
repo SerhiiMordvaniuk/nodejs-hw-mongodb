@@ -14,6 +14,8 @@ import { errorHandler } from './middlewares/errorHandler.js';
 
 import routes from './routers/index.js';
 
+import { UPLOAD_DIR } from './constants/index.js';
+
 const PORT = getEnvVar('PORT', 3000);
 
 export async function setupServer() {
@@ -36,6 +38,8 @@ export async function setupServer() {
   });
 
   app.use(routes);
+
+  app.use('/uploads', express.static(UPLOAD_DIR));
 
   app.use('*', notFoundHandler);
 
