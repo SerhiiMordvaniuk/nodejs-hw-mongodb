@@ -10,8 +10,7 @@ import {
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
-import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
-import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+import { createContactPhotoUrl } from '../utils/createContactPhotoUrl.js';
 
 export async function getAllContactsController(req, res) {
   const userId = req.user._id;
@@ -57,7 +56,11 @@ export async function getContactByIdController(req, res) {
 export async function createContactController(req, res) {
   const userId = req.user._id;
 
-  const contact = await createContact({ ...req.body, userId });
+  const photo = req.file;
+
+  const photoUrl = await createContactPhotoUrl(photo);
+
+  const contact = await createContact({ ...req.body, userId, photo: photoUrl });
 
   res.status(201).json({
     status: 201,
@@ -71,13 +74,7 @@ export async function updateContactController(req, res) {
 
   const photo = req.file;
 
-  let photoUrl;
-
-  if (photo) {
-    photoUrl = await saveFileToCloudinary(photo);
-  } else {
-    photoUrl = await saveFileToUploadDir(photo);
-  }
+  const photoUrl = await createContactPhotoUrl(photo);
 
   const id = req.params.id;
 
