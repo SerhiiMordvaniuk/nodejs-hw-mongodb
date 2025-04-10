@@ -15,6 +15,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import routes from './routers/index.js';
 
 import { UPLOAD_DIR } from './constants/index.js';
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 const PORT = getEnvVar('PORT', 3000);
 
@@ -31,7 +32,7 @@ export async function setupServer() {
   app.use(cookieParser());
   app.use(cors());
 
-  // app.use(pino({ transport: { target: 'pino-pretty' } }));
+  app.use(pino({ transport: { target: 'pino-pretty' } }));
 
   app.get('/', (req, res) => {
     res.json({ message: 'Not found' });
@@ -40,6 +41,8 @@ export async function setupServer() {
   app.use(routes);
 
   app.use('/uploads', express.static(UPLOAD_DIR));
+
+  app.use('/api-docs', swaggerDocs());
 
   app.use('*', notFoundHandler);
 

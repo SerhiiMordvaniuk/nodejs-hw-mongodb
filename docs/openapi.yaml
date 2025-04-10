@@ -1,0 +1,40 @@
+openapi: 3.1.0
+info:
+  title: Contacts app
+  version: 1.0.0
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: This is a documentation of contacts app
+
+servers:
+  - url: http://localhost:3000
+  - url: https://dashboard.render.com/web/srv-cv1ifdjtq21c73d2t7qg
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+tags:
+  - name: Contacts
+    description: Operations with contacts
+
+paths:
+  /contacts:
+    get:
+      $ref: '../swagger/paths/contacts/get.yaml'
+
+    post:
+      $ref: '../swagger/paths/contacts/post.yaml'
+
+  /contacts/{id}:
+    get:
+      $ref: '../swagger/paths/contacts/{id}/get.yaml'
+
+    patch:
+      $ref: '../swagger/paths/contacts/{id}/patch.yaml'
+
+    delete:
+      $ref: '../swagger/paths/contacts/{id}/delete.yaml'
