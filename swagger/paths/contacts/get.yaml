@@ -62,6 +62,7 @@ responses:
               type: string
               example: Successfully found contacts!
             data:
+              type: object
               required:
                 - page
                 - perPage

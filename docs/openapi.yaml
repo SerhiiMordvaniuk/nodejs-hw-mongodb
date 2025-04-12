@@ -8,7 +8,7 @@ info:
   description: This is a documentation of contacts app
 
 servers:
-  - url: http://localhost:3000
+  - url: http://127.0.0.1:3000
   - url: https://dashboard.render.com/web/srv-cv1ifdjtq21c73d2t7qg
 
 components:

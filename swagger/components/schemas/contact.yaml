@@ -5,7 +5,6 @@ required:
   - phoneNumber
   - contactType
   - userId
-  - photo
   - createdAt
   - updatedAt
 
