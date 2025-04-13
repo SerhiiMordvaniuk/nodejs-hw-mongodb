@@ -14,7 +14,7 @@
       "url": "http://127.0.0.1:3000"
     },
     {
-      "url": "https://dashboard.render.com/web/srv-cv1ifdjtq21c73d2t7qg"
+      "url": "https://nodejs-hw-mongodb-08i0.onrender.com"
     }
   ],
   "tags": [
@@ -268,16 +268,6 @@
                       "$ref": "#/components/schemas/contact"
                     }
                   }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/400validation"
                 }
               }
             }
@@ -608,83 +598,6 @@
             "description": "Contact's photo url",
             "type": "string",
             "example": "https://res.cloudinary.com/dscaktpi6/image/upload/v1744283373/kysphmdi8qafsyoh3kh9.jpg"
-          }
-        }
-      },
-      "400validation": {
-        "type": "object",
-        "required": [
-          "status",
-          "message",
-          "data"
-        ],
-        "properties": {
-          "status": {
-            "type": "integer",
-            "example": 400
-          },
-          "message": {
-            "type": "string",
-            "example": "BadRequestError"
-          },
-          "data": {
-            "type": "object",
-            "required": [
-              "message",
-              "errors"
-            ],
-            "properties": {
-              "message": {
-                "type": "string",
-                "example": "Bad request"
-              },
-              "errors": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "required": [
-                    "message",
-                    "path",
-                    "type",
-                    "context"
-                  ],
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "\"name\" is required"
-                    },
-                    "path": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "example": "name"
-                      }
-                    },
-                    "type": {
-                      "type": "string",
-                      "example": "any.required"
-                    },
-                    "context": {
-                      "type": "object",
-                      "required": [
-                        "label",
-                        "key"
-                      ],
-                      "properties": {
-                        "label": {
-                          "type": "string",
-                          "example": "name"
-                        },
-                        "key": {
-                          "type": "string",
-                          "example": "name"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
           }
         }
       }

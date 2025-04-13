@@ -9,7 +9,7 @@ function parseSortOrder(sortOrder) {
 }
 
 function parseSortBy(sortBy) {
-  const keysOFContact = ['_id', 'name'];
+  const keysOFContact = ['name', 'contactType', 'isFavourite'];
 
   if (keysOFContact.includes(sortBy)) return sortBy;
 
