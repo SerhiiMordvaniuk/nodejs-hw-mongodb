@@ -63,24 +63,24 @@ responses:
               example: Successfully created a contact!
             data:
               $ref: '../../components/schemas/contact.yaml'
-  # '405':
-  #   description: Bad request error
-  #   content:
-  #     application/json:
-  #       schema:
-  #         type: object
-  #         required:
-  #           - status
-  #           - message
-  #         properties:
-  #           status:
-  #             type: integer
-  #             example: 400
-  #           message:
-  #             type: array
-  #             items:
-  #               type: string
-  #               example: '"name" is required'
+  '400':
+    description: Bad request error
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+          properties:
+            status:
+              type: integer
+              example: 400
+            message:
+              type: array
+              items:
+                type: string
+                example: '"name" is required'
   '401':
     $ref: '../../components/responses/401.yaml'
   '500':
